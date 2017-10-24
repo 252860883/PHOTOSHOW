@@ -6,6 +6,7 @@ import router from './router'
 import VueLazyload from  'vue-lazyload'
 import axios from 'axios'  //异步请求
 import vueInfinteScroll from  'vue-infinite-scroll' //滚动加载
+import store from '../src/vuex/store'
 
 //设置全局使用
 Vue.use(vueInfinteScroll);
@@ -33,6 +34,7 @@ Vue.use(VueLazyload,{
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

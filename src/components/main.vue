@@ -1,13 +1,17 @@
 <template>
   <div>
-  <div v-infinite-scroll="loadMore" infinite-scroll-distance='1000' infinite-scroll-disabled=false class="all">
+    
   
+  <div v-infinite-scroll="loadMore" infinite-scroll-distance='1000' infinite-scroll-disabled=false class="all">
+
   <div class="left" >
-    <div v-for="list in leftLists" key="list._id">
-    <div class="content" @dblclick="dblclick($event)" @touchstart="dbtouch($event)">
+
+    <div v-for="list in lists.leftLists" :key="list._id">
+
+    <div class="content" @dblclick="dblclick(list)" @touchstart="dbtouch(list)">
       <div class="border">
         <transition name="likefade">
-          <div class="like" v-show=""></div>
+          <div class="like" v-show="list.isLike"></div>
         </transition>  
         <img v-lazy="list.url">
         <span class="creater">{{list.who}}</span>
@@ -18,11 +22,11 @@
   </div>
 
   <div class="right">
-    <div v-for="list in rightLists" key="list._id" >
-    <div class="content" @dblclick="dblclick($event)" @touchstart="dbtouch($event)">
+    <div v-for="(list, index) in lists.rightLists" :key="list._id" >
+    <div class="content" @dblclick="dblclick(list)" @touchstart="dbtouch(list)">
       <div class="border">
       <transition name="likefade">
-          <div class="like_right" v-if=false></div>
+          <div class="like_right" v-if="list.isLike"></div>
         </transition> 
         <img v-lazy="list.url">
         <span class="creater"><span>{{list.who}}</span></span>
@@ -38,21 +42,33 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+
   export default{
     data() {
       return{
-        leftLists:[],
-        rightLists:[],
+        lists:{
+          leftLists:[],
+          rightLists:[]
+        },
         page:1,
         isClickLike:false,
         startTime:"",
-        time:0
+        time:0,
+        asideShow:false
       }
     },
+    components:{
+      
+    },
       created(){
-        
+        this.fixTitle('动态');
       },
       methods:{
+        ...mapActions([
+          'addLike',
+          'fixTitle'
+        ]),
         //拖到底部时的事件
         loadMore(){
           this.load();
@@ -63,22 +79,22 @@
         load(){
           let self=this;
           this.$http.get(`https://gank.io/api/data/福利/10/${self.page}`).then(response=>{
-            
+            //console.log(response.data.results)
             response.data.results.map(function(val,index){
               //添加一个 isLike属性
-              val.isLike=true;
+              val.isLike=false;
               if(index%2){
-                self.leftLists.push(val);
+                self.lists.leftLists.push(val);
               }else{
-                self.rightLists.push(val);
+                self.lists.rightLists.push(val);
               }
             })    
         })
         },
 
         //PC端双击出发事件
-        dblclick(index){
-          this.choiceLike(index);
+        dblclick(list){
+          this.choiceLike(list);
         },
 
         //解决移动端双击事件
@@ -89,27 +105,22 @@
           }else{
             let secondTime=new Date().getTime();
             if(secondTime-this.startTime<300){
-              console.log('dbTouch');
               /**
                *这里填写要执行的函数
                */
                this.choiceLike(index);
-            }
+            } 
             this.time=0;
-          }          
+          }
         },
 
         //双击喜欢事件
-        choiceLike(index){
-          let self =this;
-          //alert('dbclick');
-          index.path[0].display=true;
-          console.log(index)
-          self.isClickLike=true;
+        choiceLike(list){
+          list.isLike=true;
           setTimeout(()=>{
-            self.isClickLike=false;
-          },300);
-
+                  list.isLike=false;
+              },300);
+          this.addLike(list.url);
         }
       }
   }
@@ -120,6 +131,7 @@
   width:100%;
   display:flex;
 }
+
 .all .right,.left{
   flex:0 1 50%;
 } 
@@ -174,15 +186,20 @@
   color:#000;
 }
 
-.likefade-enter,.likefade-leave-to{
-  opacity:0;
+.likefade-enter,{
+  opacity:0.2;
   transform:scale(0.2);
 }
 .likefade-enter-active,.likefade-leave-active{
-  transition:all .3s;
+  transition:all .2s ease;
 }
 .likefade-enter-to{
   transform:scale(1.2);
   opacity:0.8;
 }
+.likefade-leave-to{
+  opacity:0.2;
+  transform:scale(3);
+}
+
 </style>
