@@ -14,7 +14,6 @@ vue练手项目之 vue全家桶实现移动端图片社交式网站
 <pre>
 安装依赖
 npm install vue-lazyout
-
 npm install vue-linear-scroll
 
 运行
