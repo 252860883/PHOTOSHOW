@@ -1,8 +1,9 @@
 <template>
   <div class="info_content">
-      <img class="info_photo" src="" alt="头像" >
+      <img class="info_photo" src="http://wx2.sinaimg.cn/mw690/a73bc6a1ly1fk1i7i8jrbj2068068a9y.jpg" alt="头像" >
       <router-link class="info_like" to="/" >主页</router-link>
-      <router-link class="info_like" to="/like" >我喜欢的图</router-link>
+      <router-link  to="/like" >我喜欢的图</router-link>
+      <a href="https://github.com/252860883">关于</a>
   </div>
 </template>
 
@@ -41,6 +42,7 @@ export default {
   line-height: 5em;
   margin-top: 3em;
 }
+
 .info_content a {
   height: 4em;
   width: 100%;
@@ -51,8 +53,8 @@ export default {
 .info_content a:active {
   background: #333;
 }
-.info_like {
-  margin-top: 3em;
+.info_like{
+  margin-top: 4em;
 }
 </style>
 

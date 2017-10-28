@@ -10,7 +10,7 @@
     </transition>
 
     <transition name="grey">
-        <div class="grey" v-if="asideShow"></div>
+        <div class="grey" v-if="asideShow" @click="changeAsideShow"></div>
     </transition>
     </div>
 </div>

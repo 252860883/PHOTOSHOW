@@ -8,7 +8,6 @@ export default{
         })
         store.likeUrl.push(url);
         store.likeUrl.reverse();
-        console.log(store.likeUrl);
     },
     FIX_TITLE(store,title){
         store.title=title;
