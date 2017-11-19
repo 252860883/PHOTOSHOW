@@ -12,7 +12,10 @@ vue练手项目之 vue全家桶实现移动端图片社交式网站
 ### 3.进步
 缓存还没加进去哦！
 ### 4.展示
-等好了我再截效果图
+#### 主页懒加载以及双击喜欢并触发心型特效
+![image](http://wx3.sinaimg.cn/mw690/a73bc6a1ly1flncte2k8vg20ao0fde2z.gif)
+#### 侧栏导航以及点击喜欢查看收藏的图片
+![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1flnctfxjclg20ao0fd1kx.gif)
 ### 5.安装
 <pre>
 安装依赖
